@@ -5,10 +5,13 @@ class LeafNode(HTMLNode):
     super().__init__(tag, value, None, props)
 
   def to_html(self):
+    if self.tag in ['img', 'br', 'hr', 'input', 'meta', 'link']:
+      return f'<{self.tag}{self.props_to_html()} />'
     if self.value is None:
       raise ValueError('Html nodes must have a value')
     if self.tag is None:
       return self.value
+    
     return f'<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>'
   
   def __repr__(self):
