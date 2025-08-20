@@ -35,4 +35,36 @@ def extract_markdown_links(text):
   matches = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
   print('matches:', matches)
   return matches
+
+def split_nodes(old_nodes, text_type, helper_func):
+  result = []
+  for o_n in old_nodes:
+    if o_n.text_type != TextType.PLAIN_TEXT:
+      result.append(o_n)
+      continue
+    matches = helper_func(o_n.text)
+    if len(matches) == 0:
+      result.append(o_n)
+      continue
+    current_text = o_n.text
+    split_nodes = []
+    for i in range(len(matches)):
+      first_part = matches[i][0]
+      sec_part = matches[i][1]
+      if text_type == TextType.IMAGE:
+        sections = current_text.split(f"![{first_part}]({sec_part})", 1)
+      elif text_type == TextType.LINK:
+        sections = current_text.split(f"[{first_part}]({sec_part})", 1)
+      print('sections:', sections)
+      if sections[0].strip() is not "":
+        split_nodes.append(TextNode(sections[0], TextType.PLAIN_TEXT))
+      split_nodes.append(TextNode(first_part, text_type, sec_part))
+      if i == len(matches) - 1:
+        if sections[1].strip() is not "":
+          split_nodes.append(TextNode(sections[1], TextType.PLAIN_TEXT))
+      current_text = sections[1]
+      print('current_text:', current_text)
+    result.extend(split_nodes)
+  return result
+
       
