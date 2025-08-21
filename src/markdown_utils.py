@@ -67,4 +67,12 @@ def split_nodes(old_nodes, text_type, helper_func):
     result.extend(split_nodes)
   return result
 
+def text_to_textnodes(text):
+  node = TextNode(text, TextType.PLAIN_TEXT)
+  old_nodes = split_nodes_delimiter([node], '`', TextType.CODE)
+  old_nodes = split_nodes_delimiter(old_nodes, '_', TextType.ITALIC_TEXT)
+  old_nodes = split_nodes_delimiter(old_nodes, '**', TextType.BOLD_TEXT)
+  old_nodes = split_nodes(old_nodes, TextType.LINK, extract_markdown_links)
+  result = split_nodes(old_nodes, TextType.IMAGE, extract_markdown_images)
+  return result
       
