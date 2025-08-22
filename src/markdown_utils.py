@@ -5,7 +5,7 @@ from textnode import TextNode, TextType
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
   result = []
   for o_n in old_nodes:
-    print('o_n:',o_n)
+     #print('o_n:',o_n)
     if o_n.text_type != TextType.PLAIN_TEXT:
       result.append(o_n)
       continue
@@ -14,7 +14,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     if len(text_arr) % 2 != 1:
       raise Exception(f'Error: Invalid Markdown detected! - {o_n.text}')
     is_text = True
-    print('text_arr:', text_arr)
+     #print('text_arr:', text_arr)
     for t in text_arr:
       if len(t.strip()) == 0:
         is_text = False
@@ -28,12 +28,12 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
 def extract_markdown_images(text):
   matches = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
-  print('matches:', matches)
+  # print('matches:', matches)
   return matches
 
 def extract_markdown_links(text):
   matches = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
-  print('matches:', matches)
+  # print('matches:', matches)
   return matches
 
 def split_nodes(old_nodes, text_type, helper_func):
@@ -55,7 +55,7 @@ def split_nodes(old_nodes, text_type, helper_func):
         sections = current_text.split(f"![{first_part}]({sec_part})", 1)
       elif text_type == TextType.LINK:
         sections = current_text.split(f"[{first_part}]({sec_part})", 1)
-      print('sections:', sections)
+      # print('sections:', sections)
       if sections[0].strip() is not "":
         split_nodes.append(TextNode(sections[0], TextType.PLAIN_TEXT))
       split_nodes.append(TextNode(first_part, text_type, sec_part))
@@ -63,7 +63,7 @@ def split_nodes(old_nodes, text_type, helper_func):
         if sections[1].strip() is not "":
           split_nodes.append(TextNode(sections[1], TextType.PLAIN_TEXT))
       current_text = sections[1]
-      print('current_text:', current_text)
+      # print('current_text:', current_text)
     result.extend(split_nodes)
   return result
 

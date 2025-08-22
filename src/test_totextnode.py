@@ -39,7 +39,7 @@ class TestToTextnode(unittest.TestCase):
            'obi wan image with a url of https://i.imgur.com/fJRm4Vk.jpeg ' \
            'and a link a url of https://boot.dev'
     new_nodes = text_to_textnodes(text)
-    print('new_nodes:', new_nodes)
+    # print('new_nodes:', new_nodes)
     self.assertListEqual(
       [
         TextNode(text, TextType.PLAIN_TEXT),
@@ -53,7 +53,7 @@ class TestToTextnode(unittest.TestCase):
            'obi wan image with a url of https://i.imgur.com/fJRm4Vk.jpeg ' \
            'and a [link](https://boot.dev)'
     new_nodes = text_to_textnodes(text)
-    print('new_nodes:', new_nodes)
+    # print('new_nodes:', new_nodes)
     self.assertListEqual(
       [
         TextNode('This is text with an italic word ' \
